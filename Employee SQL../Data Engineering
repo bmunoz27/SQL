@@ -1,0 +1,88 @@
+--Only use this if tables have already been created. Do not use the first time around. 
+DROP TABLE IF EXISTS departments;
+DROP TABLE IF EXISTS dept_emp;
+DROP TABLE IF EXISTS dept_manager;
+DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS salaries;
+DROP TABLE IF EXISTS titles;
+
+--Run in sections 
+
+--Section 1
+-- Exported from QuickDBD: Specifying Data Types, Primary Keys & Foreign Keys 
+-- Import CSV Files Into Corresponding SQL Table
+CREATE TABLE "Departments" (
+    "Dept_no" VARCHAR   NOT NULL,
+    "Dept_name" VARCHAR   NOT NULL,
+    CONSTRAINT "Pk_departments" PRIMARY KEY (
+        "Dept_no"
+     )
+);
+
+CREATE TABLE "Department_Employee" (
+	"Emp_no" int NOT NULL,
+	"Dept_no" VARCHAR NOT NULL,
+	"From_date" DATE NOT NULL,
+	"To_date" DATE NOT NULL
+);
+
+CREATE TABLE "Department_Manager" (
+    "Dept_no" VARCHAR  NOT NULL ,
+    "Emp_no" int  NOT NULL ,
+    "From_date" date  NOT NULL ,
+    "To_date" date  NOT NULL 
+);
+
+CREATE TABLE "Employees" (
+    "Emp_no" int  NOT NULL ,
+    "Birth_date" date  NOT NULL ,
+    "First_name" VARCHAR  NOT NULL ,
+    "Last_name" VARCHAR  NOT NULL ,
+    "Gender" VARCHAR  NOT NULL ,
+    "Hire_date" date  NOT NULL ,
+    CONSTRAINT "PK_Employees" PRIMARY KEY (
+        "Emp_no"
+    )
+);
+
+CREATE TABLE "Salaries" (
+    "Emp_no" int  NOT NULL ,
+    "Salary" int  NOT NULL ,
+    "From_date" date  NOT NULL ,
+    "To_date" date  NOT NULL 
+);
+
+CREATE TABLE "Titles" (
+    "Emp_no" int  NOT NULL ,
+    "Title" VARCHAR  NOT NULL ,
+    "From_date" date  NOT NULL ,
+    "To_date" date  NOT NULL 
+);
+
+--Section 2
+ALTER TABLE "Department_Employee" ADD CONSTRAINT "fk_Department_Employee_Emp_no" FOREIGN KEY("Emp_no")
+REFERENCES "Employees" ("Emp_no");
+
+ALTER TABLE "Department_Employee" ADD CONSTRAINT "fk_Department_Employee_Dept_no" FOREIGN KEY("Dept_no")
+REFERENCES "Departments" ("Dept_no");
+
+ALTER TABLE "Department_Manager" ADD CONSTRAINT "fk_Department_Manager_Dept_no" FOREIGN KEY("Dept_no")
+REFERENCES "Departments" ("Dept_no");
+
+ALTER TABLE "Department_Manager" ADD CONSTRAINT "fk_Department_Manager_Emp_no" FOREIGN KEY("Emp_no")
+REFERENCES "Employees" ("Emp_no");
+
+ALTER TABLE "Salaries" ADD CONSTRAINT "fk_Salaries_Emp_no" FOREIGN KEY("Emp_no")
+REFERENCES "Employees" ("Emp_no");
+
+ALTER TABLE "Titles" ADD CONSTRAINT "fk_Titles_Emp_no" FOREIGN KEY("Emp_no")
+REFERENCES "Employees" ("Emp_no");
+
+--Section 3
+-- Query * FROM Each Table Confirming Data
+SELECT * FROM public. "Departments";
+SELECT * FROM public. "Department_Employee";
+SELECT * FROM public. "Department_Manager";
+SELECT * FROM public. "Employees";
+SELECT * FROM public. "Salaries";
+SELECT * FROM public. "Titles";
